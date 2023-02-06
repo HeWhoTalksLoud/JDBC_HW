@@ -32,7 +32,6 @@ public class Application {
                 System.out.println(lastName);
                 System.out.println(gender);
                 System.out.println(city);
-
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
