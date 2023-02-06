@@ -36,6 +36,8 @@ public class Application {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+
+        // Задание 2.
     }
 
 }
