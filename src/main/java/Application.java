@@ -17,6 +17,7 @@ public class Application {
                             "WHERE id = (?);"
             );
 
+            // Задаем id.
             statement.setInt(1, 2);
 
             final ResultSet resultSet = statement.executeQuery();
@@ -24,9 +25,13 @@ public class Application {
             while (resultSet.next()) {
                 String name = "Имя: " + resultSet.getString("first_name");
                 String lastName = "Фамилия: " + resultSet.getString("last_name");
+                String gender = "Пол: " + resultSet.getString("gender");
+                String city = "Город: " + resultSet.getString("city_name");
 
                 System.out.println(name);
                 System.out.println(lastName);
+                System.out.println(gender);
+                System.out.println(city);
 
             }
         } catch (SQLException e) {
