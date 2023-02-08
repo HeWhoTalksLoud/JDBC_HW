@@ -1,4 +1,4 @@
-package db_objects;
+package db.objects;
 
 import javax.persistence.*;
 import java.util.Objects;
@@ -12,18 +12,22 @@ public class Employee {
     private int id;
     @Column(name = "first_name")
     private String firstName;
+    @Column(name = "last_name")
     private String lastName;
+    @Column(name = "gender")
     private String gender;
-    private int age;
+    @Column(name = "age")
+    private Integer age;
     //
-    private int city;
+    @Column(name = "city_id")
+    private Integer city;
 
 
     public Employee() {
         // пустой конструктор по умолчанию
     }
 
-    public Employee(int id, String firstName, String lastName, String gender, int age, City city) {
+    public Employee(int id, String firstName, String lastName, String gender, int age, int city) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -32,7 +36,7 @@ public class Employee {
         this.city = city;
     }
 
-    public Employee(String firstName, String lastName, String gender, int age, City city) {
+    public Employee(String firstName, String lastName, String gender, int age, int city) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.gender = gender;
@@ -80,11 +84,11 @@ public class Employee {
         this.age = age;
     }
 
-    public City getCity() {
+    public int getCity() {
         return city;
     }
 
-    public void setCity(City city) {
+    public void setCity(int city) {
         this.city = city;
     }
 
@@ -97,7 +101,7 @@ public class Employee {
                 && firstName.equals(employee.firstName)
                 && lastName.equals(employee.lastName)
                 && gender.equals(employee.gender)
-                && city.equals(employee.city);
+                && city == employee.city;
     }
 
     @Override

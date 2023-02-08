@@ -1,6 +1,6 @@
 package dao;
 
-import db_objects.Employee;
+import db.objects.Employee;
 
 import java.util.List;
 
@@ -10,9 +10,9 @@ public interface EmployeeDAO {
     // Получение объекта по id
     Employee readById(int id);
     // Получение всех объектов
-    List<Employee> readAll();
+    List readAll();
     // Изменение объекта по id
-    void updateAgeById(int id, int age);
+    void updateAge(Employee employee);
     // Удаление объекта по id
-    void deleteById(int id);
+    void delete(Employee employee);
 }
