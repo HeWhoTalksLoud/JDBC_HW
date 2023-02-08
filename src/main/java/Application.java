@@ -1,4 +1,13 @@
+import dao.CityDAO;
+import dao.CityDAOImpl;
+import dao.EmployeeDAO;
+import dao.EmployeeDAOImpl;
+import db_objects.City;
+import db_objects.Employee;
+
 import java.sql.*;
+import java.util.LinkedList;
+import java.util.List;
 
 public class Application {
     public static void main(String[] args) {
@@ -33,11 +42,34 @@ public class Application {
                 System.out.println(gender);
                 System.out.println(city);
             }
+
+            // Задание 2.
+            EmployeeDAO employeeDAO = new EmployeeDAOImpl(connection);
+            CityDAO cityDAO = new CityDAOImpl(connection);
+
+            City cityBangkok = new City("Bangkok");
+            Employee newEmployee = new Employee("JC", "Denton", "M",
+                    29, cityBangkok);
+
+            cityDAO.create(cityBangkok);
+            employeeDAO.create(newEmployee);
+
+            List<Employee> employeeList = new LinkedList<>(employeeDAO.readAll());
+
+            employeeList.forEach(System.out::println);
+
+            employeeDAO.deleteById(13);
+            System.out.println();
+            System.out.println(employeeDAO.readById(1));
+
+            employeeDAO.updateAgeById(2, 120);
+
+            employeeList.forEach(System.out::println);
+
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
 
-        // Задание 2.
     }
 
 }

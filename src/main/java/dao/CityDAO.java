@@ -1,18 +1,19 @@
 package dao;
 
+import db_objects.City;
 import db_objects.Employee;
 
 import java.util.List;
 
-public interface EmployeeDAO {
+public interface CityDAO {
     // Добавление объекта
-    void create(Employee employee);
+    void create(City city);
     // Получение объекта по id
-    Employee readById(int id);
+    City readById(int id);
     // Получение всех объектов
-    List<Employee> readAll();
+    List<City> readAll();
     // Изменение объекта по id
-    void updateAgeById(int id, int age);
+    void updateNameById(int id, String name);
     // Удаление объекта по id
     void deleteById(int id);
 }
