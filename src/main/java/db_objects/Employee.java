@@ -1,14 +1,22 @@
 package db_objects;
 
+import javax.persistence.*;
 import java.util.Objects;
 
+@Entity
+@Table (name = "employees")
 public class Employee {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private int id;
+    @Column(name = "first_name")
     private String firstName;
     private String lastName;
     private String gender;
     private int age;
-    private City city;
+    //
+    private int city;
 
 
     public Employee() {
