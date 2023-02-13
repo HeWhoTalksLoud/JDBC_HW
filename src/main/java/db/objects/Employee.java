@@ -2,6 +2,8 @@ package db.objects;
 
 import javax.persistence.*;
 import java.util.Objects;
+import db.objects.City;
+import org.hibernate.annotations.Cascade;
 
 
 @Entity
@@ -20,15 +22,17 @@ public class Employee {
     @Column(name = "age")
     private Integer age;
     //
-    @Column(name = "city_id")
-    private Integer city;
+    @ManyToOne(targetEntity = City.class,
+            cascade = {CascadeType.ALL})
+    @JoinColumn(name = "city_id")
+    private City city;
 
 
     public Employee() {
         // пустой конструктор по умолчанию
     }
 
-    public Employee(int id, String firstName, String lastName, String gender, int age, int city) {
+    public Employee(int id, String firstName, String lastName, String gender, int age, City city) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -37,7 +41,7 @@ public class Employee {
         this.city = city;
     }
 
-    public Employee(String firstName, String lastName, String gender, int age, int city) {
+    public Employee(String firstName, String lastName, String gender, int age, City city) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.gender = gender;
@@ -85,11 +89,11 @@ public class Employee {
         this.age = age;
     }
 
-    public int getCity() {
+    public City getCity() {
         return city;
     }
 
-    public void setCity(int city) {
+    public void setCity(City city) {
         this.city = city;
     }
 
@@ -102,7 +106,7 @@ public class Employee {
                 && firstName.equals(employee.firstName)
                 && lastName.equals(employee.lastName)
                 && gender.equals(employee.gender)
-                && city == employee.city;
+                && city.equals(employee.city);
     }
 
     @Override

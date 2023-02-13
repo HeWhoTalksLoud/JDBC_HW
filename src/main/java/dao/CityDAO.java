@@ -1,7 +1,6 @@
 package dao;
 
-import db_objects.City;
-import db_objects.Employee;
+import db.objects.City;
 
 import java.util.List;
 
@@ -13,7 +12,7 @@ public interface CityDAO {
     // Получение всех объектов
     List<City> readAll();
     // Изменение объекта по id
-    void updateNameById(int id, String name);
+    void updateName(City city);
     // Удаление объекта по id
-    void deleteById(int id);
+    void delete(City city);
 }
