@@ -3,6 +3,7 @@ package db.objects;
 import javax.persistence.*;
 import java.util.Objects;
 
+
 @Entity
 @Table (name = "employees")
 public class Employee {

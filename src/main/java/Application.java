@@ -19,7 +19,5 @@ public class Application {
 
         employeeDAO.delete(employee);
         employeeDAO.readAll().forEach(System.out::println);
-
     }
-
 }
