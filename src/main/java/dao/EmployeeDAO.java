@@ -15,4 +15,5 @@ public interface EmployeeDAO {
     void updateAge(Employee employee);
     // Удаление объекта
     void delete(Employee employee);
+
 }

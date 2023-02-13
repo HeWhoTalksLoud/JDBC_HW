@@ -1,7 +1,9 @@
 package dao;
 
-import db_objects.City;
-import db_objects.Employee;
+import db.objects.City;
+import db.objects.Employee;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -11,22 +13,20 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class CityDAOImpl implements CityDAO {
-    private Connection connection;
 
-    public CityDAOImpl(Connection connection) {
-        this.connection = connection;
+    public CityDAOImpl() {
+
     }
 
     @Override
     public void create(City city) {
-        try (PreparedStatement statement = connection.prepareStatement(
-                "INSERT INTO city (city_name) " +
-                        "VALUES ((?))"
-        )) {
-            statement.setString(1, city.getName());
+        try (Session session = HibernateSessionFactoryUtil.getSessionFactory()
+                .openSession();){
+            Transaction transaction = session.beginTransaction();
+            session.save(city);
+            transaction.commit();
 
-            statement.execute();
-        } catch (SQLException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
@@ -34,75 +34,38 @@ public class CityDAOImpl implements CityDAO {
 
     @Override
     public City readById(int id) {
-        City city = new City();
-
-        try (PreparedStatement statement = connection.prepareStatement(
-                "SELECT *  FROM city WHERE id = (?)"
-        )) {
-            statement.setInt(1, id);
-
-            ResultSet resultSet = statement.executeQuery();
-
-            while (resultSet.next()) {
-                city.setId(Integer.parseInt(resultSet.getString("id")));
-                city.setName(resultSet.getString("name"));
-            }
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return city;
+        return HibernateSessionFactoryUtil
+                .getSessionFactory()
+                .openSession()
+                .get(City.class, id);
     }
 
     @Override
-    public List<City> readAll() {
-        List<City> cityList = new LinkedList<>();
-
-        try (PreparedStatement statement = connection.prepareStatement(
-                "SELECT * FROM city "
-        )) {
-            ResultSet resultSet = statement.executeQuery();
-
-            while (resultSet.next()) {
-                int id = Integer.parseInt(resultSet.getString("id"));
-                String name = resultSet.getString("name");
-
-                cityList.add(new City(id, name));
-            }
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        return cityList;
+    public List readAll() {
+        List cities = (List)  HibernateSessionFactoryUtil
+                .getSessionFactory().openSession().createQuery("From City ").list();
+        return cities;
     }
 
     @Override
-    public void updateNameById(int id, String name) {
+    public void updateName(City city) {
 
-        try (PreparedStatement statement = connection.prepareStatement(
-                "UPDATE city SET city_name = (?) WHERE id = (?)"
-        )) {
-            statement.setString(1, name);
-            statement.setInt(2, id);
-            statement.executeQuery();
-
-        } catch (SQLException e) {
+        try (Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession()){
+            Transaction transaction = session.beginTransaction();
+            session.update(city);
+            transaction.commit();
+        } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
 
     @Override
-    public void deleteById(int id) {
-
-        try(PreparedStatement statement = connection.prepareStatement(
-                "DELETE FROM city WHERE id=(?)")) {
-
-            statement.setInt(1, id);
-            statement.executeQuery();
-
-        } catch (SQLException e) {
+    public void delete(City city) {
+        try(Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession()) {
+            Transaction transaction = session.beginTransaction();
+            session.delete(city);
+            transaction.commit();
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
